@@ -1,8 +1,11 @@
-export function Button (){
+type ButtonProps = {
+    texto: string
+}
 
+export function Button({ texto }: ButtonProps) {
     return (
         <>
-            <button>Visualizar</button>
+            <button>{texto}</button>
         </>
     )
 }

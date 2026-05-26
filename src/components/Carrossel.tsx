@@ -1,11 +1,16 @@
-export function Carrossel() {
+type ItemCarrossel = {
+  label: string;
+  color: string;
+};
+
+type CarrosselProps = {
+  itens: ItemCarrossel[];
+};
+
+export function Carrossel({ itens }: CarrosselProps) {
   return (
     <div className="mt-6 flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
-      {[
-        { label: "Item 1", color: "bg-purple-500" },
-        { label: "Item 2", color: "bg-pink-500" },
-        { label: "Item 3", color: "bg-emerald-500" },
-      ].map(({ label, color }) => (
+      {itens.map(({ label, color }) => (
         <div
           key={label}
           className={`
