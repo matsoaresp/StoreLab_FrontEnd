@@ -12,6 +12,7 @@ export function Header({ titulo, subtitulo }: HeaderProps) {
         <p className="mt-2 text-sm text-gray-300">
           {subtitulo}
         </p>
+       
       )}
     </header>
   );
