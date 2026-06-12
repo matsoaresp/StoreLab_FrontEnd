@@ -1,4 +1,4 @@
-import { User as UserIcon, Trash2 } from "lucide-react";
+import { User as UserIcon } from "lucide-react";
 
 export interface Participante {
   id: string;
@@ -20,45 +20,45 @@ export function ParticipantesList({
   onRemover,
 }: ParticipantesListProps) {
   return (
-    <div className="space-y-2">
+    <div className="space-y-4">
       {participantes.length === 0 ? (
-        <div className="rounded-lg border border-white/10 bg-gray-900 p-8 text-center text-gray-400">
+        <div className="rounded-2xl border border-white/10 bg-[#252525] p-8 text-center text-gray-400">
           Nenhum participante adicionado
         </div>
       ) : (
         participantes.map((participante) => (
           <div
             key={participante.id}
-            className="flex items-center justify-between rounded-lg border border-white/10 bg-gray-900 p-4 transition-all hover:border-white/20"
+            className="flex flex-col md:flex-row md:items-center justify-between gap-4 rounded-[32px] bg-[#F28E2B] px-6 py-4 shadow-md transition-all hover:brightness-95"
           >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-500">
-                <UserIcon size={20} className="text-white" />
+            <div className="flex items-center gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/20">
+                <UserIcon size={24} className="text-white" />
               </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <p className="font-medium text-white">{participante.nome}</p>
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="text-lg font-bold text-white">{participante.nome}</p>
                   {participante.papel === "lider" && (
-                    <span className="rounded bg-yellow-500/20 px-2 py-0.5 text-xs font-semibold text-yellow-300">
+                    <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-bold text-white uppercase tracking-wider">
                       Líder
                     </span>
                   )}
                 </div>
-                <p className="text-sm text-gray-400">{participante.email}</p>
+                <p className="text-sm font-medium text-white/80">{participante.email}</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <span className="text-xs text-gray-500">
+            <div className="flex items-center justify-end gap-4">
+              <span className="hidden text-sm font-medium text-white/70 lg:block">
                 Aderiu em {participante.dataAdesao}
               </span>
               {isProfessor && onRemover && (
                 <button
                   onClick={() => onRemover(participante.id)}
-                  className="rounded p-2 transition-all hover:bg-red-500/20 text-red-400"
+                  className="rounded-full bg-[#EF5350] px-6 py-2 font-bold text-white shadow-sm transition-all hover:bg-red-600"
                   title="Remover participante"
                 >
-                  <Trash2 size={18} />
+                  Excluir
                 </button>
               )}
             </div>

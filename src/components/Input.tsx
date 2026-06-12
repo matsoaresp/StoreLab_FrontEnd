@@ -5,6 +5,7 @@ type InputProps = {
   name?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
+  className?: string;
 };
 
 export function Input({
@@ -14,6 +15,7 @@ export function Input({
   name,
   onChange,
   required = false,
+  className,
 }: InputProps) {
   return (
     <input
@@ -23,7 +25,10 @@ export function Input({
       name={name}
       onChange={onChange}
       required={required}
-      className="w-full rounded-lg bg-white text-black px-4 py-2 text-sm placeholder-gray-600 outline-none border border-white transition focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+      className={
+        className ||
+        "w-full rounded-lg bg-white px-4 py-3 text-sm font-semibold text-black placeholder-gray-500 outline-none transition focus:ring-2 focus:ring-[#F28E2B]"
+      }
     />
   );
 }

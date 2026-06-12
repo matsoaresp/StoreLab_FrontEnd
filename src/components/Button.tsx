@@ -13,7 +13,7 @@ export function Button({ texto, children, className = "", onClick, disabled = fa
             type={type}
             onClick={onClick}
             disabled={disabled}
-            className={className || "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"}
+            className={className || "w-full rounded-lg bg-white px-4 py-3 font-bold text-black transition hover:bg-gray-200 shadow-md disabled:opacity-50"}
         >
             {children || texto}
         </button>
