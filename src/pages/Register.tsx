@@ -32,7 +32,6 @@ export function Register({ onLoginClick, onRegisterSuccess }: RegisterProps) {
     e.preventDefault();
     setLoading(true);
     
-    // Simular registro
     setTimeout(() => {
       login({
         id: Math.random().toString(),
@@ -48,114 +47,101 @@ export function Register({ onLoginClick, onRegisterSuccess }: RegisterProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 to-black flex items-center justify-center p-4">
-      <div className="bg-black border border-gray-700 rounded-lg shadow-2xl p-8 w-full max-w-md">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-white">Cadastro</h1>
-          <button
-            onClick={onLoginClick}
-            className="text-sm text-blue-400 hover:text-blue-300 font-semibold underline"
+    <div className="min-h-screen bg-[#F5F5F7] flex items-center justify-center p-4">
+      <div className="bg-[#252525] rounded-[32px] shadow-[0_10px_30px_rgba(0,0,0,0.25)] p-8 w-full max-w-md">
+        
+        <div className="mb-6">
+          <select
+            value={userType}
+            onChange={(e) => setUserType(e.target.value as 'aluno' | 'professor')}
+            className="w-full px-4 py-2 bg-[#1E1E1E] text-white text-xs rounded-lg outline-none border border-white/10 opacity-70 transition focus:opacity-100"
           >
-            Já possui conta?
-          </button>
+            <option value="aluno">Cadastrar como Aluno</option>
+            <option value="professor">Cadastrar as Professor</option>
+          </select>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block text-sm font-medium text-white mb-2">
-              Tipo de Usuário
-            </label>
-            <select
-              value={userType}
-              onChange={(e) => setUserType(e.target.value as 'aluno' | 'professor')}
-              className="w-full px-4 py-2 border border-white bg-white text-black rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none transition"
-            >
-              <option value="aluno">Aluno</option>
-              <option value="professor">Professor</option>
-            </select>
-          </div>
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-white tracking-wide">
+            {userType === 'aluno' ? 'Cadastro Aluno' : 'Cadastro Professor'}
+          </h1>
+        </div>
 
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-white mb-2">
-              Nome Completo
-            </label>
             <Input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              placeholder="Digite seu nome"
+              placeholder="Nome"
               required
+              className="w-full rounded-lg bg-white px-4 py-3 text-sm font-bold text-black placeholder-black outline-none border-none"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white mb-2">
-              Email
-            </label>
             <Input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              placeholder="seu.email@exemplo.com"
+              placeholder="E-mail"
               required
+              className="w-full rounded-lg bg-white px-4 py-3 text-sm font-bold text-black placeholder-black outline-none border-none"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white mb-2">
-              Senha
-            </label>
             <Input
-              type="password"
-              name="password"
-              value={formData.password}
+              type="text"
+              name="matricula"
+              value={formData.matricula}
               onChange={handleInputChange}
-              placeholder="Digite sua senha"
+              placeholder="Matricula"
               required
+              className="w-full rounded-lg bg-white px-4 py-3 text-sm font-bold text-black placeholder-black outline-none border-none"
             />
           </div>
 
-          {userType === 'aluno' && (
-            <div>
-              <label className="block text-sm font-medium text-white mb-2">
-                Matrícula
-              </label>
-              <Input
-                type="text"
-                name="matricula"
-                value={formData.matricula}
-                onChange={handleInputChange}
-                placeholder="Digite sua matrícula"
-                required
-              />
-            </div>
-          )}
+          <div>
+            <Input
+              type="text"
+              name="turma"
+              value={formData.turma}
+              onChange={handleInputChange}
+              placeholder="Turma"
+              required
+              className="w-full rounded-lg bg-white px-4 py-3 text-sm font-bold text-black placeholder-black outline-none border-none"
+            />
+          </div>
 
-          {userType === 'professor' && (
-            <div>
-              <label className="block text-sm font-medium text-white mb-2">
-                Disciplina
-              </label>
-              <Input
-                type="text"
-                name="turma"
-                value={formData.turma}
-                onChange={handleInputChange}
-                placeholder="Digite a disciplina"
-                required
-              />
-            </div>
-          )}
+          <input 
+            type="hidden" 
+            name="password" 
+            value={formData.password || "demo123"} 
+          />
 
-          <Button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-white hover:bg-gray-100 text-black font-bold py-2 px-4 rounded-lg transition duration-200 disabled:opacity-50"
-          >
-            {loading ? 'Cadastrando...' : 'Cadastrar'}
-          </Button>
+          <div className="text-right text-xs text-white/80 space-y-0.5 pt-1">
+            <p>Já possui uma conta?</p>
+            <button
+              type="button"
+              onClick={onLoginClick}
+              className="hover:underline text-white font-bold"
+            >
+              Login
+            </button>
+          </div>
+
+          <div className="pt-4">
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full rounded-xl bg-white px-5 py-3 font-bold text-black transition hover:bg-gray-200 shadow-md disabled:opacity-50"
+            >
+              {loading ? 'Registrando...' : 'Registrar'}
+            </Button>
+          </div>
         </form>
       </div>
     </div>

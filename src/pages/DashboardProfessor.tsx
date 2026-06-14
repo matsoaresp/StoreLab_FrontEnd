@@ -12,114 +12,29 @@ interface DashboardProfessorProps {
   onSelectGrupo: (grupoId: string | null) => void;
 }
 
-// Dados simulados - em produção viriam de uma API
 const ALUNOS_SIMULADOS: Aluno[] = [
-  {
-    id: "aluno-1",
-    nome: "João Silva",
-    email: "joao@example.com",
-    grupoId: "grupo-1",
-    grupoNome: "Grupo A",
-    matricula: "2024001",
-  },
-  {
-    id: "aluno-2",
-    nome: "Maria Santos",
-    email: "maria@example.com",
-    grupoId: "grupo-1",
-    grupoNome: "Grupo A",
-    matricula: "2024002",
-  },
-  {
-    id: "aluno-3",
-    nome: "Pedro Costa",
-    email: "pedro@example.com",
-    grupoId: "grupo-2",
-    grupoNome: "Grupo B",
-    matricula: "2024003",
-  },
-  {
-    id: "aluno-4",
-    nome: "Ana Oliveira",
-    email: "ana@example.com",
-    grupoId: "grupo-1",
-    grupoNome: "Grupo A",
-    matricula: "2024004",
-  },
-  {
-    id: "aluno-5",
-    nome: "Carlos Mendes",
-    email: "carlos@example.com",
-    grupoId: "grupo-2",
-    grupoNome: "Grupo B",
-    matricula: "2024005",
-  },
+  { id: "aluno-1", nome: "João Silva", email: "joao@example.com", grupoId: "grupo-1", grupoNome: "Grupo A", matricula: "2024001" },
+  { id: "aluno-2", nome: "Maria Santos", email: "maria@example.com", grupoId: "grupo-1", grupoNome: "Grupo A", matricula: "2024002" },
+  { id: "aluno-3", nome: "Pedro Costa", email: "pedro@example.com", grupoId: "grupo-2", grupoNome: "Grupo B", matricula: "2024003" },
+  { id: "aluno-4", nome: "Ana Oliveira", email: "ana@example.com", grupoId: "grupo-1", grupoNome: "Grupo A", matricula: "2024004" },
+  { id: "aluno-5", nome: "Carlos Mendes", email: "carlos@example.com", grupoId: "grupo-2", grupoNome: "Grupo B", matricula: "2024005" },
 ];
 
 const GRUPOS_SIMULADOS: Grupo[] = [
-  {
-    id: "grupo-1",
-    nome: "Grupo A - Desenvolvimentistas",
-    descricao:
-      "Grupo focado em desenvolvimento de software e aplicações web",
-    participantes: 4,
-    totalVagas: 5,
-  },
-  {
-    id: "grupo-2",
-    nome: "Grupo B - Data Science",
-    descricao: "Grupo especializado em análise de dados e machine learning",
-    participantes: 2,
-    totalVagas: 5,
-  },
+  { id: "grupo-1", nome: "Grupo A - Desenvolvimentistas", descricao: "Grupo focado em desenvolvimento de software e aplicações web", participantes: 4, totalVagas: 5 },
+  { id: "grupo-2", nome: "Grupo B - Data Science", descricao: "Grupo especializado em análise de dados e machine learning", participantes: 2, totalVagas: 5 },
 ];
 
 const PARTICIPANTES_SIMULADOS: Record<string, Participante[]> = {
   "grupo-1": [
-    {
-      id: "user-1",
-      nome: "João Silva",
-      email: "joao@example.com",
-      dataAdesao: "15/01/2024",
-      papel: "lider",
-    },
-    {
-      id: "user-2",
-      nome: "Maria Santos",
-      email: "maria@example.com",
-      dataAdesao: "16/01/2024",
-      papel: "membro",
-    },
-    {
-      id: "user-4",
-      nome: "Ana Oliveira",
-      email: "ana@example.com",
-      dataAdesao: "18/01/2024",
-      papel: "membro",
-    },
-    {
-      id: "user-5",
-      nome: "Carlos Mendes",
-      email: "carlos@example.com",
-      dataAdesao: "19/01/2024",
-      papel: "membro",
-    },
+    { id: "user-1", nome: "João Silva", email: "joao@example.com", dataAdesao: "15/01/2024", papel: "lider" },
+    { id: "user-2", nome: "Maria Santos", email: "maria@example.com", dataAdesao: "16/01/2024", papel: "membro" },
+    { id: "user-4", nome: "Ana Oliveira", email: "ana@example.com", dataAdesao: "18/01/2024", papel: "membro" },
+    { id: "user-5", nome: "Carlos Mendes", email: "carlos@example.com", dataAdesao: "19/01/2024", papel: "membro" },
   ],
   "grupo-2": [
-    {
-      id: "user-3",
-      nome: "Pedro Costa",
-      email: "pedro@example.com",
-      dataAdesao: "17/01/2024",
-      papel: "lider",
-    },
-    {
-      id: "user-6",
-      nome: "Lucas Ferreira",
-      email: "lucas@example.com",
-      dataAdesao: "20/01/2024",
-      papel: "membro",
-    },
+    { id: "user-3", nome: "Pedro Costa", email: "pedro@example.com", dataAdesao: "17/01/2024", papel: "lider" },
+    { id: "user-6", nome: "Lucas Ferreira", email: "lucas@example.com", dataAdesao: "20/01/2024", papel: "membro" },
   ],
 };
 
@@ -151,108 +66,104 @@ export function DashboardProfessor({
   const totalGrupos = GRUPOS_SIMULADOS.length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-12 pb-12">
+      
       {/* Cards de Resumo */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="rounded-lg border border-white/10 bg-gray-900 p-6">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 mb-8">
+        <div className="rounded-[24px] bg-[#252525] p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-400">Total de Alunos</p>
-              <p className="text-3xl font-bold text-white">{totalAlunos}</p>
+              <p className="text-sm font-bold text-gray-400 uppercase tracking-wider">Total de Alunos</p>
+              <p className="text-4xl font-extrabold text-white mt-1">{totalAlunos}</p>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/20">
-              <Users className="text-blue-400" size={24} />
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/5">
+              <Users className="text-[#F28E2B]" size={28} />
             </div>
           </div>
         </div>
 
-        <div className="rounded-lg border border-white/10 bg-gray-900 p-6">
+        <div className="rounded-[24px] bg-[#252525] p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-400">Total de Grupos</p>
-              <p className="text-3xl font-bold text-white">{totalGrupos}</p>
+              <p className="text-sm font-bold text-gray-400 uppercase tracking-wider">Total de Grupos</p>
+              <p className="text-4xl font-extrabold text-white mt-1">{totalGrupos}</p>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-500/20">
-              <Users className="text-purple-400" size={24} />
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/5">
+              <Users className="text-white" size={28} />
             </div>
           </div>
         </div>
 
-        <div className="rounded-lg border border-white/10 bg-gray-900 p-6">
+        <div className="rounded-[24px] bg-[#252525] p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-400">Alunos sem Grupo</p>
-              <p className="text-3xl font-bold text-white">0</p>
+              <p className="text-sm font-bold text-gray-400 uppercase tracking-wider">Alunos sem Grupo</p>
+              <p className="text-4xl font-extrabold text-white mt-1">0</p>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-yellow-500/20">
-              <Users className="text-yellow-400" size={24} />
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/5">
+              <Users className="text-gray-500" size={28} />
             </div>
           </div>
         </div>
       </div>
 
       {/* Seção Alunos */}
-      <section className="rounded-lg border border-white/10 bg-gray-900 p-6">
+      <section>
         <div
-          className="flex cursor-pointer items-center justify-between"
-          onClick={() =>
-            setExpandedSection(expandedSection === "alunos" ? null : "alunos")
-          }
+          className="flex cursor-pointer items-center justify-between mb-8 group"
+          onClick={() => setExpandedSection(expandedSection === "alunos" ? null : "alunos")}
         >
-          <h2 className="text-xl font-semibold text-white">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
             Alunos ({totalAlunos})
-          </h2>
+          </h1>
           <ChevronRight
-            size={24}
-            className={`transition-transform ${
+            size={32}
+            className={`text-gray-400 group-hover:text-white transition-transform duration-300 ${
               expandedSection === "alunos" ? "rotate-90" : ""
             }`}
           />
         </div>
 
         {expandedSection === "alunos" && (
-          <div className="mt-6 space-y-4">
-            <div className="flex gap-2">
+          <div className="space-y-6 animate-in slide-in-from-top-4 duration-300">
+            <div className="flex flex-col sm:flex-row gap-4 mb-4">
               <input
                 type="text"
                 placeholder="Buscar por nome, email ou matrícula..."
                 value={searchAlunos}
                 onChange={(e) => setSearchAlunos(e.target.value)}
-                className="flex-1 rounded-lg border border-white/10 bg-gray-800 px-4 py-2 text-sm text-white placeholder-gray-500 transition-all focus:border-blue-500/50 focus:outline-none"
+                className="flex-1 rounded-full bg-[#1E1E1E] px-6 py-4 text-sm font-semibold text-white placeholder-gray-500 transition-all focus:ring-2 focus:ring-[#F28E2B] focus:outline-none border-none shadow-inner"
               />
-              <Button className="flex items-center gap-2">
-                <Plus size={18} />
+              <Button className="flex items-center justify-center gap-2 rounded-full px-8 py-4 bg-white text-black font-bold hover:bg-gray-200 shadow-lg">
+                <Plus size={20} />
                 Adicionar
               </Button>
             </div>
+            {/* O componente AlunosList gerará o visual das barras laranjas automaticamente */}
             <AlunosList alunos={alunosFiltrados} />
           </div>
         )}
       </section>
 
       {/* Seção Grupos */}
-      <section className="rounded-lg border border-white/10 bg-gray-900 p-6">
+      <section>
         <div
-          className="flex cursor-pointer items-center justify-between"
-          onClick={() =>
-            setExpandedSection(
-              expandedSection === "grupos" ? null : "grupos"
-            )
-          }
+          className="flex cursor-pointer items-center justify-between mb-8 group"
+          onClick={() => setExpandedSection(expandedSection === "grupos" ? null : "grupos")}
         >
-          <h2 className="text-xl font-semibold text-white">
-            Grupos ({totalGrupos})
-          </h2>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+            Grupos
+          </h1>
           <ChevronRight
-            size={24}
-            className={`transition-transform ${
+            size={32}
+            className={`text-gray-400 group-hover:text-white transition-transform duration-300 ${
               expandedSection === "grupos" ? "rotate-90" : ""
             }`}
           />
         </div>
 
         {expandedSection === "grupos" && (
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2 animate-in slide-in-from-top-4 duration-300">
             {GRUPOS_SIMULADOS.map((grupo) => (
               <GrupoCard
                 key={grupo.id}
@@ -269,35 +180,29 @@ export function DashboardProfessor({
 
       {/* Seção Participantes por Grupo */}
       {grupoSelecionado && (
-        <section className="rounded-lg border border-white/10 bg-gray-900 p-6">
+        <section>
           <div
-            className="flex cursor-pointer items-center justify-between"
-            onClick={() =>
-              setExpandedSection(
-                expandedSection === "participantes" ? null : "participantes"
-              )
-            }
+            className="flex cursor-pointer items-center justify-between mb-8 group"
+            onClick={() => setExpandedSection(expandedSection === "participantes" ? null : "participantes")}
           >
-            <h2 className="text-xl font-semibold text-white">
-              Participantes - {grupoSelecionado.nome} (
-              {participantesGrupo.length})
-            </h2>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+              Integrantes <span className="text-xl text-gray-400 font-medium ml-2">({grupoSelecionado.nome})</span>
+            </h1>
             <ChevronRight
-              size={24}
-              className={`transition-transform ${
+              size={32}
+              className={`text-gray-400 group-hover:text-white transition-transform duration-300 ${
                 expandedSection === "participantes" ? "rotate-90" : ""
               }`}
             />
           </div>
 
           {expandedSection === "participantes" && (
-            <div className="mt-6">
+            <div className="animate-in slide-in-from-top-4 duration-300">
               <ParticipantesList
                 participantes={participantesGrupo}
                 isProfessor={true}
                 onRemover={(participanteId) => {
                   console.log("Removendo participante:", participanteId);
-                  // Implementar lógica de remoção
                 }}
               />
             </div>
