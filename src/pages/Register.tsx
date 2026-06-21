@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
-import { useAuth } from '../context/AuthContext';
+import { api } from '../services/axios';
 
 interface RegisterProps {
   onLoginClick: () => void;
@@ -9,7 +9,6 @@ interface RegisterProps {
 }
 
 export function Register({ onLoginClick, onRegisterSuccess }: RegisterProps) {
-  const { login } = useAuth();
   const [userType, setUserType] = useState<'aluno' | 'professor'>('aluno');
   const [formData, setFormData] = useState({
     name: '',
@@ -28,22 +27,30 @@ export function Register({ onLoginClick, onRegisterSuccess }: RegisterProps) {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
-    setTimeout(() => {
-      login({
-        id: Math.random().toString(),
+    try {
+      
+      await api.post('/auth/register', {
         nome: formData.name,
         email: formData.email,
-        tipo: userType,
-        disciplina: userType === 'professor' ? formData.turma : undefined,
-        grupoId: userType === 'aluno' ? 'grupo-1' : undefined,
+        senha: formData.password,
+        matricula: formData.matricula,
+        role: userType.toUpperCase() 
       });
+      
+      
       setLoading(false);
       onRegisterSuccess();
-    }, 1000);
+
+    } catch (error: any) {
+      setLoading(false);
+      console.error("Erro no cadastro:", error);
+     
+      alert(error.response?.data || "Erro ao realizar o cadastro. Verifique os dados.");
+    }
   };
 
   return (
@@ -57,7 +64,7 @@ export function Register({ onLoginClick, onRegisterSuccess }: RegisterProps) {
             className="w-full px-4 py-2 bg-[#1E1E1E] text-white text-xs rounded-lg outline-none border border-white/10 opacity-70 transition focus:opacity-100"
           >
             <option value="aluno">Cadastrar como Aluno</option>
-            <option value="professor">Cadastrar as Professor</option>
+            <option value="professor">Cadastrar como Professor</option>
           </select>
         </div>
 
@@ -94,6 +101,18 @@ export function Register({ onLoginClick, onRegisterSuccess }: RegisterProps) {
 
           <div>
             <Input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              placeholder="Senha"
+              required
+              className="w-full rounded-lg bg-white px-4 py-3 text-sm font-bold text-black placeholder-black outline-none border-none"
+            />
+          </div>
+
+          <div>
+            <Input
               type="text"
               name="matricula"
               value={formData.matricula}
@@ -115,12 +134,6 @@ export function Register({ onLoginClick, onRegisterSuccess }: RegisterProps) {
               className="w-full rounded-lg bg-white px-4 py-3 text-sm font-bold text-black placeholder-black outline-none border-none"
             />
           </div>
-
-          <input 
-            type="hidden" 
-            name="password" 
-            value={formData.password || "demo123"} 
-          />
 
           <div className="text-right text-xs text-white/80 space-y-0.5 pt-1">
             <p>Já possui uma conta?</p>
