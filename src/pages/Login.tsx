@@ -5,10 +5,12 @@ import { useAuth } from '../context/AuthContext';
 
 interface LoginProps {
   onRegisterClick?: () => void;
+  onLoginSuccess?: () => void;
 }
 
-export function Login({ onRegisterClick }: LoginProps) {
+export function Login({ onRegisterClick, onLoginSuccess }: LoginProps) {
   const { login } = useAuth();
+  
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -27,9 +29,12 @@ export function Login({ onRegisterClick }: LoginProps) {
     setError('');
     
     try {
-      login(formData.email, formData.password);
-    } catch (err) {
-      setError('E-mail ou senha inválidos.');
+      await login(formData.email, formData.password);
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.message || err.response?.data || 'E-mail ou senha inválidos.');
     } finally {
       setLoading(false);
     }
@@ -43,7 +48,7 @@ export function Login({ onRegisterClick }: LoginProps) {
           <h1 className="text-2xl font-bold text-white tracking-wide">Login AppStore</h1>
         </div>
 
-        {error && <div className="mb-4 text-red-400 text-sm text-center">{error}</div>}
+        {error && <div className="mb-4 text-red-400 text-sm text-center font-medium">{error}</div>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

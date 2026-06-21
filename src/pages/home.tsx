@@ -1,10 +1,54 @@
-import { Carrossel } from "../components/Carrossel";
 import { Sidebar } from "../components/Sidebar";
+
+interface AppCard {
+  nome: string;
+  descricao: string;
+  imagem: string;
+  cor: string; // cor de fundo usada como placeholder enquanto não há imagem real
+}
+
+const appsFamosos: AppCard[] = [
+  {
+    nome: "Sky: Nascidos da Luz",
+    descricao: "Voe e ajude os reinos",
+    imagem: "",
+    cor: "bg-sky-700",
+  },
+  {
+    nome: "SpellBreak: Invoque os 5 Elementos",
+    descricao: "Lute com os amigos",
+    imagem: "",
+    cor: "bg-orange-700",
+  },
+  {
+    nome: "Goat: Simulador de Cabra",
+    descricao: "Seja uma cabra",
+    imagem: "",
+    cor: "bg-blue-300",
+  },
+  {
+    nome: "Fun: A pura diversão",
+    descricao: "Explore com alegria",
+    imagem: "",
+    cor: "bg-pink-600",
+  },
+  {
+    nome: "Myers: O Slasher dos Slashers",
+    descricao: "Fuja do assassino",
+    imagem: "",
+    cor: "bg-zinc-800",
+  },
+  {
+    nome: "Warrior: Guerreiros das Sombras",
+    descricao: "Seja um guerreiro",
+    imagem: "",
+    cor: "bg-red-800",
+  },
+];
 
 export function Home() {
   return (
     <div className="flex min-h-screen bg-[#202024] text-white overflow-x-hidden">
-      
       <Sidebar
         titulo="StoreLab"
         categorias={[
@@ -19,63 +63,66 @@ export function Home() {
       />
 
       <main className="flex-1 md:ml-64">
-        
-       
-        <div className="p-6 md:p-12 max-w-6xl mx-auto">
-          
-          <div className="flex flex-col md:flex-row gap-8 items-center md:items-start pb-12">
-            
-            <div className="w-64 h-64 shrink-0 rounded-[32px] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] relative bg-gradient-to-tr from-green-600 to-black">
-               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-yellow-300/20 via-transparent to-black/80"></div>
-            </div>
+        <div className="p-8 md:p-14 lg:pr-16">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-6">Apps</h1>
 
-            {/* Informações Principais */}
-            <div className="flex flex-col items-center md:items-start text-center md:text-left pt-2">
-              <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-2">
-                Alien: Isolation
-              </h1>
-              <h2 className="text-2xl font-medium text-gray-300 mb-6">
-                Jogo de terror
-              </h2>
-              <p className="text-sm font-medium text-gray-400 mb-6">
-                Disponível para jogar
-              </p>
-              <button className="bg-[#9E9E9E] hover:bg-gray-500 transition-all text-white font-bold py-3 px-12 rounded-full shadow-md w-max">
-                Jogar
-              </button>
+          {/* Banner em destaque */}
+          <div className="relative rounded-2xl overflow-hidden border-2 border-violet-500 shadow-[0_0_25px_rgba(139,92,246,0.25)] mb-12">
+            <div className="relative w-full h-[360px] md:h-[440px] lg:h-[480px] bg-gradient-to-r from-zinc-900 via-zinc-800 to-black">
+              {/* Substituir por <img src="..." className="absolute inset-0 w-full h-full object-cover" /> quando houver imagem real */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/40" />
+
+              <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between gap-4 p-8">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-xl bg-emerald-600 shrink-0" />
+                  <div>
+                    <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
+                      Alien: Isolation
+                    </h2>
+                    <p className="text-base text-gray-300">Jogo de terror</p>
+                  </div>
+                </div>
+
+                <button className="bg-zinc-400/60 hover:bg-zinc-400/80 transition-colors text-white text-base font-semibold py-3 px-8 rounded-full shrink-0">
+                  Visualizar
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-around items-center py-10 border-t border-white/10">
-            <div className="text-center px-4 mb-4 md:mb-0">
-              <p className="text-gray-300 text-sm font-medium mb-2">Avaliações</p>
-              <p className="text-4xl font-light text-white tracking-wide">4,8</p>
-            </div>
-            
-            <div className="text-center px-4 mb-4 md:mb-0">
-              <p className="text-gray-300 text-sm font-medium mb-2">Categoria</p>
-              <p className="text-lg font-normal text-white">Terror</p>
-            </div>
-            
-            <div className="text-center px-4">
-              <p className="text-gray-300 text-sm font-medium mb-2">Desenvolvido Por</p>
-              <p className="text-lg font-normal text-white uppercase tracking-widest">Alunos</p>
-            </div>
+          {/* Apps mais famosos */}
+          <div className="flex items-center justify-between mb-7">
+            <h3 className="text-xl font-semibold text-white">
+              Apps mais famosos
+            </h3>
+            <a
+              href="#"
+              className="text-base text-gray-400 hover:text-white transition-colors"
+            >
+              {">"}
+            </a>
           </div>
 
-          <div className="pt-8">
-            <Carrossel
-              itens={[
-                { label: "Cena 1", color: "bg-[#1E1E1E]" },
-                { label: "Cena 2", color: "bg-red-900/40" },
-                { label: "Cena 3", color: "bg-green-900/20" },
-              ]}
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8">
+            {appsFamosos.map((app) => (
+              <div key={app.nome} className="flex items-center gap-4">
+                <div
+                  className={`w-16 h-16 rounded-xl shrink-0 ${app.cor}`}
+                >
+                </div>
+                <div className="min-w-0">
+                  <p className="text-base font-semibold text-white leading-snug truncate">
+                    {app.nome}
+                  </p>
+                  <p className="text-sm text-gray-400 truncate">
+                    {app.descricao}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
-
         </div>
       </main>
-
     </div>
   );
 }

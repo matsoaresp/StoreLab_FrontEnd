@@ -1,3 +1,4 @@
+import React from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { Login } from './pages/Login'
@@ -5,14 +6,14 @@ import { Register } from './pages/Register'
 import { Dashboard } from './pages/Dashboard'
 import { Home } from './pages/Home'
 
-function PrivateRoute({ children }: { children: JSX.Element }) {
+function PrivateRoute({ children }: { children: React.ReactNode }) {
   const { usuario } = useAuth()
   
   if (!usuario) {
     return <Navigate to="/" replace />
   }
   
-  return children
+  return <>{children}</>
 }
 
 function AppRoutes() {

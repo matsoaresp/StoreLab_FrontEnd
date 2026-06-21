@@ -1,20 +1,18 @@
-type HeaderProps = {
+import unifilLogo from '../assets/unifilLogo.png';
+
+interface HeaderProps {
   titulo: string;
-  subtitulo?: string;
-};
-
-export function Header({ titulo, subtitulo }: HeaderProps) {
-  return (
-    <header className="w-full pb-8">
-      <h1 className="text-3xl md:text-4xl font-extrabold text-white">{titulo}</h1>
-
-      {subtitulo && (
-        <p className="mt-2 text-base md:text-lg text-gray-300">
-          {subtitulo}
-        </p>
-      )}
-    </header>
-  );
 }
 
-export default Header;
+export function Header({ titulo }: HeaderProps) {
+  return (
+    <div className="flex items-center gap-4 mb-8 p-4 bg-[#252525] rounded-[24px]">
+      <img 
+        src={unifilLogo} 
+        alt="Logo UniFil" 
+        className="w-10 h-10 object-contain filter invert" 
+      />
+      <h1 className="text-3xl font-extrabold text-white tracking-tight">{titulo}</h1>
+    </div>
+  );
+}

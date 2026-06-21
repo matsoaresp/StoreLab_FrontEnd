@@ -14,10 +14,9 @@ export function Register({ onLoginClick, onRegisterSuccess }: RegisterProps) {
     name: '',
     email: '',
     password: '',
-    matricula: '',
-    turma: '',
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -30,26 +29,25 @@ export function Register({ onLoginClick, onRegisterSuccess }: RegisterProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
     
     try {
-      
+      const roleBackend = userType === 'aluno' ? 'STUDENT' : 'ADMIN';
+
       await api.post('/auth/register', {
         nome: formData.name,
         email: formData.email,
         senha: formData.password,
-        matricula: formData.matricula,
-        role: userType.toUpperCase() 
+        role: roleBackend
       });
       
-      
-      setLoading(false);
       onRegisterSuccess();
 
-    } catch (error: any) {
+    } catch (err: any) {
+      console.error(err);
+      setError(err.response?.data?.message || err.response?.data || "Erro ao realizar o cadastro. Verifique os dados.");
+    } finally {
       setLoading(false);
-      console.error("Erro no cadastro:", error);
-     
-      alert(error.response?.data || "Erro ao realizar o cadastro. Verifique os dados.");
     }
   };
 
@@ -73,6 +71,8 @@ export function Register({ onLoginClick, onRegisterSuccess }: RegisterProps) {
             {userType === 'aluno' ? 'Cadastro Aluno' : 'Cadastro Professor'}
           </h1>
         </div>
+
+        {error && <div className="mb-4 text-red-400 text-sm text-center font-medium">{error}</div>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -106,30 +106,6 @@ export function Register({ onLoginClick, onRegisterSuccess }: RegisterProps) {
               value={formData.password}
               onChange={handleInputChange}
               placeholder="Senha"
-              required
-              className="w-full rounded-lg bg-white px-4 py-3 text-sm font-bold text-black placeholder-black outline-none border-none"
-            />
-          </div>
-
-          <div>
-            <Input
-              type="text"
-              name="matricula"
-              value={formData.matricula}
-              onChange={handleInputChange}
-              placeholder="Matricula"
-              required
-              className="w-full rounded-lg bg-white px-4 py-3 text-sm font-bold text-black placeholder-black outline-none border-none"
-            />
-          </div>
-
-          <div>
-            <Input
-              type="text"
-              name="turma"
-              value={formData.turma}
-              onChange={handleInputChange}
-              placeholder="Turma"
               required
               className="w-full rounded-lg bg-white px-4 py-3 text-sm font-bold text-black placeholder-black outline-none border-none"
             />
