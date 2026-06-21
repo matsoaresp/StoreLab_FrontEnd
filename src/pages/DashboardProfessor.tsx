@@ -1,24 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronRight, Plus, Users } from "lucide-react";
 import { Button } from "../components/Button";
 import type { User } from "../context/AuthContext";
 import { AlunosList, type Aluno } from "../components/AlunosList";
 import { GrupoCard, type Grupo } from "../components/GrupoCard";
 import { ParticipantesList, type Participante } from "../components/ParticipantesList";
+import { api } from "../services/axios";
 
 interface DashboardProfessorProps {
   usuario: User;
   selectedGrupoId: string | null;
   onSelectGrupo: (grupoId: string | null) => void;
 }
-
-const ALUNOS_SIMULADOS: Aluno[] = [
-  { id: "aluno-1", nome: "João Silva", email: "joao@example.com", grupoId: "grupo-1", grupoNome: "Grupo A", matricula: "2024001" },
-  { id: "aluno-2", nome: "Maria Santos", email: "maria@example.com", grupoId: "grupo-1", grupoNome: "Grupo A", matricula: "2024002" },
-  { id: "aluno-3", nome: "Pedro Costa", email: "pedro@example.com", grupoId: "grupo-2", grupoNome: "Grupo B", matricula: "2024003" },
-  { id: "aluno-4", nome: "Ana Oliveira", email: "ana@example.com", grupoId: "grupo-1", grupoNome: "Grupo A", matricula: "2024004" },
-  { id: "aluno-5", nome: "Carlos Mendes", email: "carlos@example.com", grupoId: "grupo-2", grupoNome: "Grupo B", matricula: "2024005" },
-];
 
 const GRUPOS_SIMULADOS: Grupo[] = [
   { id: "grupo-1", nome: "Grupo A - Desenvolvimentistas", descricao: "Grupo focado em desenvolvimento de software e aplicações web", participantes: 4, totalVagas: 5 },
@@ -43,32 +36,56 @@ export function DashboardProfessor({
   selectedGrupoId,
   onSelectGrupo,
 }: DashboardProfessorProps) {
-  const [expandedSection, setExpandedSection] = useState<
-    "alunos" | "grupos" | "participantes" | null
-  >("alunos");
+  const [expandedSection, setExpandedSection] = useState<"alunos" | "grupos" | "participantes" | null>("alunos");
   const [searchAlunos, setSearchAlunos] = useState("");
+  
+  const [alunos, setAlunos] = useState<Aluno[]>([]);
+  const [carregando, setCarregando] = useState(true);
 
-  const alunosFiltrados = ALUNOS_SIMULADOS.filter(
+  useEffect(() => {
+    async function buscarAlunos() {
+      try {
+        const resposta = await api.get('/usuario/alunos');
+        
+        const alunosFormatados = resposta.data.map((aluno: any) => ({
+          id: aluno.id.toString(),
+          nome: aluno.nome,
+          email: aluno.email,
+          matricula: "N/A", 
+          grupoId: null,
+          grupoNome: "Sem Grupo"
+        }));
+
+        setAlunos(alunosFormatados);
+      } catch (erro) {
+        console.error(erro);
+      } finally {
+        setCarregando(false);
+      }
+    }
+
+    buscarAlunos();
+  }, []);
+
+  const alunosFiltrados = alunos.filter(
     (aluno) =>
-      aluno.nome.toLowerCase().includes(searchAlunos.toLowerCase()) ||
-      aluno.email.toLowerCase().includes(searchAlunos.toLowerCase()) ||
-      aluno.matricula.includes(searchAlunos)
+      aluno.nome?.toLowerCase().includes(searchAlunos.toLowerCase()) ||
+      aluno.email?.toLowerCase().includes(searchAlunos.toLowerCase())
   );
 
-  const grupoSelecionado = GRUPOS_SIMULADOS.find(
-    (g) => g.id === selectedGrupoId
-  );
-  const participantesGrupo = selectedGrupoId
-    ? PARTICIPANTES_SIMULADOS[selectedGrupoId] || []
-    : [];
+  const grupoSelecionado = GRUPOS_SIMULADOS.find((g) => g.id === selectedGrupoId);
+  const participantesGrupo = selectedGrupoId ? PARTICIPANTES_SIMULADOS[selectedGrupoId] || [] : [];
 
-  const totalAlunos = ALUNOS_SIMULADOS.length;
+  const totalAlunos = alunos.length;
   const totalGrupos = GRUPOS_SIMULADOS.length;
+
+  if (carregando) {
+    return <div className="text-white text-center py-10">Carregando dados...</div>;
+  }
 
   return (
     <div className="space-y-12 pb-12">
       
-      {/* Cards de Resumo */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 mb-8">
         <div className="rounded-[24px] bg-[#252525] p-6 shadow-lg">
           <div className="flex items-center justify-between">
@@ -98,7 +115,7 @@ export function DashboardProfessor({
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-bold text-gray-400 uppercase tracking-wider">Alunos sem Grupo</p>
-              <p className="text-4xl font-extrabold text-white mt-1">0</p>
+              <p className="text-4xl font-extrabold text-white mt-1">{totalAlunos}</p>
             </div>
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/5">
               <Users className="text-gray-500" size={28} />
@@ -107,7 +124,6 @@ export function DashboardProfessor({
         </div>
       </div>
 
-      {/* Seção Alunos */}
       <section>
         <div
           className="flex cursor-pointer items-center justify-between mb-8 group"
@@ -129,7 +145,7 @@ export function DashboardProfessor({
             <div className="flex flex-col sm:flex-row gap-4 mb-4">
               <input
                 type="text"
-                placeholder="Buscar por nome, email ou matrícula..."
+                placeholder="Buscar por nome ou email..."
                 value={searchAlunos}
                 onChange={(e) => setSearchAlunos(e.target.value)}
                 className="flex-1 rounded-full bg-[#1E1E1E] px-6 py-4 text-sm font-semibold text-white placeholder-gray-500 transition-all focus:ring-2 focus:ring-[#F28E2B] focus:outline-none border-none shadow-inner"
@@ -139,13 +155,11 @@ export function DashboardProfessor({
                 Adicionar
               </Button>
             </div>
-            {/* O componente AlunosList gerará o visual das barras laranjas automaticamente */}
             <AlunosList alunos={alunosFiltrados} />
           </div>
         )}
       </section>
 
-      {/* Seção Grupos */}
       <section>
         <div
           className="flex cursor-pointer items-center justify-between mb-8 group"
@@ -178,7 +192,6 @@ export function DashboardProfessor({
         )}
       </section>
 
-      {/* Seção Participantes por Grupo */}
       {grupoSelecionado && (
         <section>
           <div

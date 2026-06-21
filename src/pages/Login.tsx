@@ -5,10 +5,12 @@ import { useAuth } from '../context/AuthContext';
 
 interface LoginProps {
   onRegisterClick?: () => void;
+  onLoginSuccess?: () => void;
 }
 
-export function Login({ onRegisterClick }: LoginProps) {
+export function Login({ onRegisterClick, onLoginSuccess }: LoginProps) {
   const { login } = useAuth();
+  
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -26,13 +28,13 @@ export function Login({ onRegisterClick }: LoginProps) {
     setLoading(true);
     setError('');
     
-   try {
-      await login({
-        email: formData.email,
-        password: formData.password
-      });
+    try {
+      await login(formData.email, formData.password);
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
     } catch (err: any) {
-      setError(err.response?.data?.message || 'E-mail ou senha inválidos.');
+      setError(err.response?.data?.message || err.response?.data || 'E-mail ou senha inválidos.');
     } finally {
       setLoading(false);
     }
