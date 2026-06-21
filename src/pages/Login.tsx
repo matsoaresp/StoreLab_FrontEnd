@@ -26,10 +26,13 @@ export function Login({ onRegisterClick }: LoginProps) {
     setLoading(true);
     setError('');
     
-    try {
-      login(formData.email, formData.password);
-    } catch (err) {
-      setError('E-mail ou senha inválidos.');
+   try {
+      await login({
+        email: formData.email,
+        password: formData.password
+      });
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'E-mail ou senha inválidos.');
     } finally {
       setLoading(false);
     }
@@ -43,7 +46,7 @@ export function Login({ onRegisterClick }: LoginProps) {
           <h1 className="text-2xl font-bold text-white tracking-wide">Login AppStore</h1>
         </div>
 
-        {error && <div className="mb-4 text-red-400 text-sm text-center">{error}</div>}
+        {error && <div className="mb-4 text-red-400 text-sm text-center font-medium">{error}</div>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
