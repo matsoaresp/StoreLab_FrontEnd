@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Input } from "./Input";
+import unifilLogo from "../assets/unifilLogo.png"; // Importação da sua logo
 
 type SidebarProps = {
   titulo: string;
@@ -16,23 +17,9 @@ export function Sidebar({ titulo, categorias }: SidebarProps) {
         onClick={() => setOpen(!open)}
         aria-label="Menu"
       >
-        <span
-          className={`block h-0.5 w-5 bg-white transition-all duration-300 ${
-            open ? "translate-y-2 rotate-45" : ""
-          }`}
-        />
-
-        <span
-          className={`block h-0.5 w-5 bg-white transition-all duration-300 ${
-            open ? "opacity-0" : ""
-          }`}
-        />
-
-        <span
-          className={`block h-0.5 w-5 bg-white transition-all duration-300 ${
-            open ? "-translate-y-2 -rotate-45" : ""
-          }`}
-        />
+        <span className={`block h-0.5 w-5 bg-white transition-all duration-300 ${open ? "translate-y-2 rotate-45" : ""}`} />
+        <span className={`block h-0.5 w-5 bg-white transition-all duration-300 ${open ? "opacity-0" : ""}`} />
+        <span className={`block h-0.5 w-5 bg-white transition-all duration-300 ${open ? "-translate-y-2 -rotate-45" : ""}`} />
       </button>
 
       {open && (
@@ -50,11 +37,14 @@ export function Sidebar({ titulo, categorias }: SidebarProps) {
           ${open ? "translate-x-0" : "-translate-x-full"}
         `}
       >
+        {/* Substituí o SVG pela sua logo */}
         <div className="mb-10 flex items-center gap-3">
-          <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
-            <path d="M21.75 3.75L12 18l-3-4.5h-5.25l7.5 11.25L24 6H21.75z" />
-          </svg>
-          <h2 className="text-2xl font-extrabold tracking-wide">
+          <img 
+            src={unifilLogo} 
+            alt="Logo UniFil" 
+            className="w-10 h-10 object-contain filter invert" 
+          />
+          <h2 className="text-xl font-extrabold tracking-wide leading-tight">
             {titulo}
           </h2>
         </div>
