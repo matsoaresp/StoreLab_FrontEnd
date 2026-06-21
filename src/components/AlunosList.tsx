@@ -1,4 +1,4 @@
-import { User as UserIcon, Mail, BookOpen } from "lucide-react";
+import { User as UserIcon, Mail, BookOpen, Pencil, Trash2, Eye } from "lucide-react"; // Importei o Eye
 
 export interface Aluno {
   id: string;
@@ -12,9 +12,11 @@ export interface Aluno {
 interface AlunosListProps {
   alunos: Aluno[];
   onSelectAluno?: (alunoId: string) => void;
+  onEdit?: (aluno: Aluno) => void;
+  onDelete?: (alunoId: string) => void;
 }
 
-export function AlunosList({ alunos, onSelectAluno }: AlunosListProps) {
+export function AlunosList({ alunos, onSelectAluno, onEdit, onDelete }: AlunosListProps) {
   return (
     <div className="w-full overflow-x-auto">
       <table className="w-full border-separate" style={{ borderSpacing: "0 16px" }}>
@@ -66,12 +68,32 @@ export function AlunosList({ alunos, onSelectAluno }: AlunosListProps) {
                   </div>
                 </td>
                 <td className="px-6 py-4 rounded-r-2xl text-right">
-                  <button
-                    onClick={() => onSelectAluno?.(aluno.id)}
-                    className="rounded-full bg-[#9E9E9E] px-6 py-2 text-sm font-bold text-white transition-all hover:bg-gray-500 shadow-sm"
-                  >
-                    Visualizar
-                  </button>
+                  <div className="flex items-center justify-end gap-2">
+                    {/* Botão Visualizar - Chama o GET por ID */}
+                    <button
+                      onClick={() => onSelectAluno?.(aluno.id)}
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-white transition-all hover:bg-white/40 shadow-sm"
+                      title="Visualizar detalhes"
+                    >
+                      <Eye size={18} />
+                    </button>
+                    {/* Botão Editar */}
+                    <button
+                      onClick={() => onEdit?.(aluno)}
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-white transition-all hover:bg-white/40 shadow-sm"
+                      title="Editar aluno"
+                    >
+                      <Pencil size={18} />
+                    </button>
+                    {/* Botão Excluir */}
+                    <button
+                      onClick={() => onDelete?.(aluno.id)}
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-red-500/90 text-white transition-all hover:bg-red-600 shadow-sm"
+                      title="Excluir aluno"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))
